@@ -268,7 +268,7 @@ public final class AsmUtil {
 
         switch (d.getType()) {
             case MODIFY:
-                rewriteModifyDescr(context, d, originalBlock, consequence, declr, obj);
+                rewriteModifyDescr(context, d, analysis, originalBlock, consequence, declr, obj);
                 break;
             case UPDATE:
                 rewriteUpdateDescr(context, d, analysis, consequence, declr, obj);
@@ -281,6 +281,7 @@ public final class AsmUtil {
 
     private static void rewriteModifyDescr( RuleBuildContext context,
                                             JavaBlockDescr d,
+                                            JavaAnalysisResult analysis,
                                             String originalBlock,
                                             StringBuilder consequence,
                                             Declaration declr,
@@ -301,7 +302,8 @@ public final class AsmUtil {
         }
         BitMask modificationMask = isPropertyReactive ? getEmptyPropertyReactiveMask(settableProperties.size()) : allSetButTraitBitMask();
         if (isPropertyReactive) {
-            modificationMask = getModificationMask( consequence, obj, modificationMask, typeDeclaration, settableProperties, statement, false );
+            // collect modification outside modify block
+            modificationMask = getModificationMask( analysis.getAnalyzedExpr(), obj, modificationMask, typeDeclaration, settableProperties, statement, false );
         }
 
         int end = originalBlock.indexOf("{");
@@ -327,6 +329,7 @@ public final class AsmUtil {
             start = end + exprStr.length();
 
             if (typeDeclaration != null) {
+                // collect modification inside modify block
                 modificationMask = parseModifiedProperties(statement, settableProperties, typeDeclaration, isPropertyReactive, modificationMask, exprStr);
             }
         }
@@ -365,17 +368,17 @@ public final class AsmUtil {
             context.getRule().getConsequenceMetaData().addStatement(statement);
 
             if (isPropertyReactive) {
-                modificationMask = getModificationMask( consequence, obj, modificationMask, typeDeclaration, settableProperties, statement, true );
+                modificationMask = getModificationMask( analysis.getAnalyzedExpr(), obj, modificationMask, typeDeclaration, settableProperties, statement, true );
             }
         }
 
         appendUpdateStatement(consequence, declr, obj, modificationMask, typeClass);
     }
 
-    private static BitMask getModificationMask( StringBuilder consequence, String obj, BitMask modificationMask, TypeDeclaration typeDeclaration, List<String> settableProperties, ConsequenceMetaData.Statement statement, boolean isUpdate ) {
+    private static BitMask getModificationMask( String originalConsequence, String obj, BitMask modificationMask, TypeDeclaration typeDeclaration, List<String> settableProperties, ConsequenceMetaData.Statement statement, boolean isUpdate ) {
         boolean parsedExprOnce = false;
         // a late optimization to include this for-loop within this if
-        for (String expr : splitStatementsAcrossBlocks( consequence )) {
+        for (String expr : splitStatementsAcrossBlocks( originalConsequence )) {
             String updateExpr = expr.replaceFirst("^\\Q" + obj + "\\E\\s*\\.", "");
             if (!updateExpr.equals(expr)) {
                 parsedExprOnce = true;
