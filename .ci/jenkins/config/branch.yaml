@@ -30,10 +30,6 @@ repositories:
   branch: 8.44.2.x-prod
 - name: drools-website
   branch: 8.44.2.x-prod
-- name: kie-benchmarks
-  branch: 8.44.2.x-prod
-- name: kie-jpmml-integration
-  branch: 8.44.2.x-prod
 productized_repositories:
 - name: drools
   branch: 8.44.2.x-prod
