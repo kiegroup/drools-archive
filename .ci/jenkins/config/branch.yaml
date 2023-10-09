@@ -2,76 +2,44 @@ environments:
   default:
     env_vars:
       DROOLS_BUILD_MVN_OPTS: -Dfull
+      BUILD_MVN_OPTS: '-Dproductized  '
+    enabled: true
   native:
     env_vars:
       NATIVE: true
       BUILD_MVN_OPTS_CURRENT: -Dnative -Dquarkus.native.container-build=true
       DROOLS_BUILD_MVN_OPTS: -Dfull
       ADDITIONAL_TIMEOUT: 720
+      BUILD_MVN_OPTS: '-Dproductized  '
     ids:
     - native
-  native-lts:
-    env_vars:
-      NATIVE: true
-      BUILD_MVN_OPTS: -Dproductized -Ddata-index-ephemeral.image=quay.io/kiegroup/kogito-data-index-ephemeral
-      BUILD_MVN_OPTS_CURRENT: -Dnative -Dquarkus.native.container-build=true
-      QUARKUS_BRANCH: '2.13'
-      ADDITIONAL_TIMEOUT: 720
-    ids:
-    - native
-    - prod
-  quarkus-main:
-    enabled: false
-    env_vars:
-      QUARKUS_BRANCH: main
-      DROOLS_BUILD_MVN_OPTS: -Dfull
-    ids:
-    - quarkus
-  quarkus-3:
-    pull_request_default_check: false
-    env_vars:
-      BUILD_MAVEN_TOOL: kie-maven-3.9.1
-      BUILD_JDK_TOOL: kie-jdk17
-      BUILD_MVN_OPTS: -Denforcer.skip
-      # DROOLS_BUILD_MVN_OPTS: -Dfull #  "No enabled as it does not compile in quarkus-3
-      # BUILD_MVN_OPTS_QUARKUS_UPDATE: -Dfull
-    ids:
-    - quarkus
-    - quarkus3
+    enabled: true
   quarkus-branch:
     env_vars:
       QUARKUS_BRANCH: '2.16'
       DROOLS_BUILD_MVN_OPTS: -Dfull
+      BUILD_MVN_OPTS: '-Dproductized  '
     ids:
     - quarkus
-  quarkus-lts:
-    pull_request_default_check: false
-    env_vars:
-      BUILD_MVN_OPTS: -Dproductized -Ddata-index-ephemeral.image=quay.io/kiegroup/kogito-data-index-ephemeral
-      QUARKUS_BRANCH: '2.13'
-    ids:
-    - quarkus
-    - lts
-    - prod
-  sonarcloud:
-    auto_generation: false
-    env_vars:
-      ENABLE_SONARCLOUD: true
-      DROOLS_BUILD_MVN_OPTS: -Dfull
-    ids:
-    - sonarcloud
-    - coverage
+    enabled: true
 productized_branch: true
 disable:
-  triggers: false
+  triggers: true
 repositories:
 - name: drools
+  branch: 8.44.2.x-prod
 - name: drools-website
+  branch: 8.44.2.x-prod
 - name: kie-benchmarks
+  branch: 8.44.2.x-prod
 - name: kie-jpmml-integration
+  branch: 8.44.2.x-prod
 productized_repositories:
 - name: drools
+  branch: 8.44.2.x-prod
+  is_branch_config_repo: true
 - name: drools-website
+  branch: 8.44.2.x-prod
 git:
   author:
     name: kiegroup
@@ -98,10 +66,10 @@ maven:
     staging_profile_url: https://repository.jboss.org/nexus/content/groups/kogito-public/
     staging_profile_id: 1976dd1c18392a
     build_promotion_profile_id: ea49ccd6f174
-  artifacts_repository: ''
+  artifacts_repository: https://bxms-qe.rhev-ci-vms.eng.rdu2.redhat.com:8443/nexus/content/repositories/osl-prod-nightly/
   artifacts_upload_repository:
-    url: https://repository.jboss.org/nexus/content/repositories/snapshots/
-    creds_id: kogito-snapshots-upload
+    url: https://bxms-qe.rhev-ci-vms.eng.rdu2.redhat.com:8443/nexus/content/repositories/osl-prod-nightly/
+    creds_id: unpacks-zip-on-qa-nexus
   pr_checks:
     repository:
       url: https://bxms-qe.rhev-ci-vms.eng.rdu2.redhat.com:8443/nexus/content/repositories/kogito-runtimes-pr-full-testing/
@@ -119,3 +87,5 @@ jenkins:
     jdk: kie-jdk11
     maven: kie-maven-3.8.7
     sonar_jdk: kie-jdk17
+generation_config:
+  missing_environment: ignore
