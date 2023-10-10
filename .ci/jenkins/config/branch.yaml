@@ -1,24 +1,21 @@
 environments:
   default:
     env_vars:
-      DROOLS_BUILD_MVN_OPTS: -Dfull
-      BUILD_MVN_OPTS: '-Dproductized  -Dproductized  '
+      BUILD_MVN_OPTS: '-Dproductized'
     enabled: true
   native:
     env_vars:
       NATIVE: true
       BUILD_MVN_OPTS_CURRENT: -Dnative -Dquarkus.native.container-build=true
-      DROOLS_BUILD_MVN_OPTS: -Dfull
       ADDITIONAL_TIMEOUT: 720
-      BUILD_MVN_OPTS: '-Dproductized  -Dproductized  '
+      BUILD_MVN_OPTS: '-Dproductized'
     ids:
     - native
     enabled: true
   quarkus-branch:
     env_vars:
       QUARKUS_BRANCH: '2.16'
-      DROOLS_BUILD_MVN_OPTS: -Dfull
-      BUILD_MVN_OPTS: '-Dproductized  -Dproductized  '
+      BUILD_MVN_OPTS: '-Dproductized'
     ids:
     - quarkus
     enabled: true
