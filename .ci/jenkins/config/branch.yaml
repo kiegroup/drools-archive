@@ -18,7 +18,7 @@ environments:
     env_vars:
       QUARKUS_BRANCH: '2.13'
       DROOLS_BUILD_MVN_OPTS: -Dfull
-      BUILD_MVN_OPTS: '-Dproductized  -Dproductized  '
+      BUILD_MVN_OPTS: '-Dproductized '
     ids:
     - quarkus
     enabled: true
