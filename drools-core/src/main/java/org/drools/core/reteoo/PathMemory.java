@@ -67,7 +67,10 @@ public class PathMemory extends AbstractBaseLinkedListNode<Memory>
     }
 
     public RuleImpl getRule() {
-        return pathEndNode instanceof TerminalNode ? ((TerminalNode) pathEndNode).getRule() : null;
+        if (pathEndNode instanceof AbstractTerminalNode) {
+            return ((AbstractTerminalNode) pathEndNode).getRule();
+        }
+        return null;
     }
 
     public RuleAgendaItem getRuleAgendaItem() {

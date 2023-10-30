@@ -45,6 +45,8 @@ import org.kie.api.runtime.rule.AgendaFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.drools.core.common.AgendaItem.getAgendaItem;
+
 public class RuleExecutor {
 
     protected static final transient Logger   log               = LoggerFactory.getLogger(RuleExecutor.class);
@@ -149,7 +151,7 @@ public class RuleExecutor {
                     continue;
                 }
 
-                AgendaItem item = (AgendaItem) tuple;
+                AgendaItem item = getAgendaItem(tuple);
                 if (agenda.getActivationsFilter() != null && !agenda.getActivationsFilter().accept(item, wm, rtn)) {
                     // only relevant for serialization, to not refire Matches already fired
                     continue;
@@ -182,7 +184,7 @@ public class RuleExecutor {
             }
 
             if (ruleIsAllMatches) {
-                fireConsequenceEvent(wm, agenda, (AgendaItem) lastTuple, DefaultAgenda.ON_AFTER_ALL_FIRES_CONSEQUENCE_NAME);
+                fireConsequenceEvent(wm, agenda, getAgendaItem(lastTuple), DefaultAgenda.ON_AFTER_ALL_FIRES_CONSEQUENCE_NAME);
             }
         }
 
@@ -202,7 +204,7 @@ public class RuleExecutor {
             tupleList.remove(leftTuple);
         } else {
             leftTuple = tupleList.removeFirst();
-            ((Activation) leftTuple).setQueued(false);
+            getAgendaItem(leftTuple).setQueued(false);
         }
         return leftTuple;
     }
@@ -286,7 +288,7 @@ public class RuleExecutor {
     }
 
     public void addLeftTuple(Tuple tuple) {
-        ((AgendaItem) tuple).setQueued(true);
+        getAgendaItem(tuple).setQueued(true);
         this.tupleList.add(tuple);
         if (queue != null) {
             addQueuedLeftTuple(tuple);
@@ -300,7 +302,7 @@ public class RuleExecutor {
     }
 
     public void removeLeftTuple(Tuple tuple) {
-        ((AgendaItem) tuple).setQueued(false);
+        getAgendaItem(tuple).setQueued(false);
         this.tupleList.remove(tuple);
         if (queue != null) {
             removeQueuedLeftTuple(tuple);

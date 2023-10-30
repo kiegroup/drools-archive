@@ -352,6 +352,8 @@ public class LeftTuple extends BaseTuple {
             return (RightInputAdapterNode) sink;
         } else if (sink instanceof ExistsNode) {
             return (ExistsNode) sink;
+        } else if (sink instanceof NotNode) {
+            return (NotNode) sink;
         }
         return (LeftTupleSink)sink;
     }
@@ -416,7 +418,8 @@ public class LeftTuple extends BaseTuple {
 
     public InternalFactHandle[] toFactHandles() {
         // always use the count of the node that created join (not the sink target)
-        InternalFactHandle[] handles = new InternalFactHandle[((LeftTupleSinkNode)sink).getLeftTupleSource().getObjectCount()];
+        LeftTupleSinkNode sink1 = LeftTupleSinkNode.getLeftTupleSinkNode(sink);
+        InternalFactHandle[] handles = new InternalFactHandle[sink1.getLeftTupleSource().getObjectCount()];
         LeftTuple                entry = (LeftTuple) skipEmptyHandles();
         for(int i = handles.length-1; i >= 0; i--) {
             handles[i] = entry.getFactHandle();
