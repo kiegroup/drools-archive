@@ -203,7 +203,7 @@ public class AsyncSendNode<T extends AsyncSendNode.AsyncSendMemory> extends Left
     @Override
     public LeftTuple createPeer(LeftTuple original) {
         FromNodeLeftTuple peer = new FromNodeLeftTuple();
-        peer.initPeer( (BaseLeftTuple) original, this );
+        peer.initPeer( original, this );
         original.setPeer( peer );
         return peer;
     }    

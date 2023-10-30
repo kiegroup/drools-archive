@@ -31,6 +31,7 @@ import org.drools.mvel.compiler.Person;
 import org.drools.testcoverage.common.util.KieBaseTestConfiguration;
 import org.drools.testcoverage.common.util.KieBaseUtil;
 import org.drools.testcoverage.common.util.TestParametersUtil;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -58,6 +59,7 @@ public class JavaDialectBinaryEqualityTest{
     }
     
     @Test
+    @Ignore("PredicateExpresisons are no more after DROOLS-6960")
     public void test1() {
         KiePackage pkg1 = getKnowledgePackage1();
         KiePackage pkg2 = getKnowledgePackage1();

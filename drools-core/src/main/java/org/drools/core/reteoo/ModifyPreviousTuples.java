@@ -70,7 +70,7 @@ public class ModifyPreviousTuples {
     }
 
     public void doDeleteObject(PropagationContext pctx, InternalWorkingMemory wm, LeftTuple leftTuple) {
-        LeftInputAdapterNode liaNode = leftTuple.getTupleSource();
+        LeftInputAdapterNode liaNode = (LeftInputAdapterNode) leftTuple.getTupleSource();
         LeftInputAdapterNode.LiaNodeMemory lm = wm.getNodeMemory( liaNode );
         SegmentMemory sm = lm.getSegmentMemory();
         if (sm != null) {

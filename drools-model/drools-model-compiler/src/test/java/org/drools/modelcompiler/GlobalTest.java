@@ -290,7 +290,7 @@ public class GlobalTest extends BaseModelTest {
                         "global Functions functions;" +
                         "rule X when\n" +
                         "  $f : Family( eval( true == functions.arrayContainsInstanceWithParameters((Object[])$f.getPersons(),\n" +
-                        "              new Object[]{\"getAgeAsShort\", (short)40}) ) )\n" +
+                        "              new Object[]{\"getAgeAsShort\", new Short((short) 40)}) ) )\n" +
                         "then\n" +
                         "end";
 
@@ -312,7 +312,7 @@ public class GlobalTest extends BaseModelTest {
                         "rule X when\n" +
                         "  $f : Family()\n" +
                         "  $s : String( eval( true == functions.arrayContainsInstanceWithParameters((Object[])$f.getPersons(),\n" +
-                        "              new Object[]{\"getAgeAsShort\", (short)40}) ) )\n" +
+                        "              new Object[]{\"getAgeAsShort\", new Short((short) 40)}) ) )\n" +
                         "then\n" +
                         "end";
 
@@ -334,7 +334,7 @@ public class GlobalTest extends BaseModelTest {
                         "global Functions functions;" +
                         "rule X when\n" +
                         "  $f : Family( eval( true == functions.arrayContainsInstanceWithParameters((Object[])$f.getPersons(),\n" +
-                        "              new Object[]{\"getAgeAsShort\", (short)39}) ) )\n" +
+                        "              new Object[]{\"getAgeAsShort\", new Short((short) 39)}) ) )\n" +
                         "then\n" +
                         "end";
 

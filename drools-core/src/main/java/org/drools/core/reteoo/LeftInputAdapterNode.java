@@ -415,7 +415,7 @@ public class LeftInputAdapterNode extends LeftTupleSource
             modifyPreviousTuples.removeLeftTuple(partitionId);
             leftTuple.reAdd();
             if ( context.getModificationMask().intersects( mask) ) {
-                doUpdateObject(leftTuple, context, workingMemory, leftTuple.getTupleSource(), true, lm, lm.getOrCreateSegmentMemory(this, workingMemory ) );
+                doUpdateObject(leftTuple, context, workingMemory, (LeftInputAdapterNode) leftTuple.getTupleSource(), true, lm, lm.getOrCreateSegmentMemory(this, workingMemory ) );
                 if (leftTuple instanceof Activation) {
                     ((Activation)leftTuple).setActive(true);
                 }
