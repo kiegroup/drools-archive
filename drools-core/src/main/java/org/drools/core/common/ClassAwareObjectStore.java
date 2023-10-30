@@ -244,7 +244,9 @@ public class ClassAwareObjectStore implements Externalizable, ObjectStore {
     }
 
     public SingleClassStore getOrCreateClassStore(Class<?> clazz) {
-        SingleClassStore store = storesMap.get(clazz.getName());
+        Object singleClassStoreObject = storesMap.get(clazz.getName());
+        SingleClassStore singleClassStore = SingleClassStore.getSingleClassStore(singleClassStoreObject);
+        SingleClassStore store = singleClassStore;
         if (store == null) {
             store = createClassStoreAndAddConcreteSubStores(clazz);
             storesMap.put(clazz.getName(), store);
@@ -259,7 +261,7 @@ public class ClassAwareObjectStore implements Externalizable, ObjectStore {
     private ConcreteClassStore getOrCreateConcreteClassStore(Class<?> clazz) {
         SingleClassStore existingStore = getOrCreateClassStore(clazz);
         if (existingStore.isConcrete()) {
-            return (ConcreteClassStore) existingStore;
+            return (ConcreteIdentityClassStore) existingStore;
         } else {
             // The existing store was abstract so has to be converted in a concrete one
             return makeStoreConcrete(existingStore);
@@ -280,7 +282,12 @@ public class ClassAwareObjectStore implements Externalizable, ObjectStore {
     }
 
     private SingleClassStore createClassStoreAndAddConcreteSubStores(Class<?> clazz) {
-        SingleClassStore newStore = isEqualityBehaviour ? new ConcreteEqualityClassStore(clazz, equalityMap) : new ConcreteIdentityClassStore(clazz);
+        SingleClassStore newStore;
+        if (isEqualityBehaviour) {
+            newStore = new ConcreteEqualityClassStore(clazz, equalityMap);
+        } else {
+            newStore = new ConcreteIdentityClassStore(clazz);
+        }
         for (SingleClassStore classStore : storesMap.values()) {
             if (classStore.isConcrete() && clazz.isAssignableFrom(classStore.getStoredClass())) {
                 newStore.addConcreteStore(((ConcreteClassStore) classStore));
@@ -290,6 +297,18 @@ public class ClassAwareObjectStore implements Externalizable, ObjectStore {
     }
 
     public interface SingleClassStore extends Externalizable, FactHandleClassStore {
+
+        // Avoid secondary super cache invalidation by testing for abstract classes first
+        // Then interfaces
+        // See: https://issues.redhat.com/browse/DROOLS-7521
+        static SingleClassStore getSingleClassStore(Object singleClassStoreObject) {
+            if (singleClassStoreObject instanceof AbstractClassStore) {
+                return (AbstractClassStore) singleClassStoreObject;
+            } else {
+                return (SingleClassStore) singleClassStoreObject;
+            }
+        }
+
         Class<?> getStoredClass();
 
         void addConcreteStore(ConcreteClassStore store);

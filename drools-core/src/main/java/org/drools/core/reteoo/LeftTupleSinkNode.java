@@ -16,6 +16,8 @@
 
 package org.drools.core.reteoo;
 
+import org.drools.core.rule.EvalCondition;
+
 /**
  * Items placed in a <code>LinkedList<code> must implement this interface .
  * 
@@ -24,6 +26,37 @@ package org.drools.core.reteoo;
 public interface LeftTupleSinkNode
     extends
     LeftTupleSink {
+
+    // Avoid secondary super cache invalidation by testing for abstract classes first
+    // Then interfaces
+    // See: https://issues.redhat.com/browse/DROOLS-7521
+    static LeftTupleSinkNode getLeftTupleSinkNode(Sink sink) {
+        if(sink instanceof QueryTerminalNode) {
+            return (QueryTerminalNode) sink;
+        } else if(sink instanceof AsyncSendNode) {
+            return (AsyncSendNode) sink;
+        } else if(sink instanceof EvalConditionNode) {
+            return (EvalConditionNode) sink;
+        } else if(sink instanceof RightInputAdapterNode) {
+            return (RightInputAdapterNode) sink;
+        } else if(sink instanceof AsyncReceiveNode) {
+            return (AsyncReceiveNode) sink;
+        } else if (sink instanceof ConditionalBranchNode) {
+            return (ConditionalBranchNode) sink;
+        } else if (sink instanceof FromNode) {
+            return (FromNode) sink;
+        } else if (sink instanceof QueryElementNode) {
+            return (QueryElementNode) sink;
+        } else if (sink instanceof TimerNode) {
+            return (TimerNode) sink;
+        } else if (sink instanceof BetaNode) {
+            return (BetaNode) sink;
+        }   else if (sink instanceof RightInputAdapterNode) {
+            return (RightInputAdapterNode) sink;
+        } else {
+            return (LeftTupleSinkNode) sink;
+        }
+    }
 
     /**
      * Returns the next node
