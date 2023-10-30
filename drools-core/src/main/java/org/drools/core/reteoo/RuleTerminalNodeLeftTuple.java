@@ -38,7 +38,7 @@ import org.drools.core.spi.PropagationContext;
 import org.drools.core.util.LinkedList;
 import org.kie.api.runtime.rule.FactHandle;
 
-public class RuleTerminalNodeLeftTuple<T extends ModedAssertion<T>> extends BaseLeftTuple implements
+public class RuleTerminalNodeLeftTuple<T extends ModedAssertion<T>> extends LeftTuple implements
                                                                     AgendaItem<T> {
     private static final long serialVersionUID = 540l;
     /**
@@ -326,7 +326,7 @@ public class RuleTerminalNodeLeftTuple<T extends ModedAssertion<T>> extends Base
     }
 
     public TerminalNode getTerminalNode() {
-        return (TerminalNode) getTupleSink();
+        return (AbstractTerminalNode) getTupleSink();
     }
 
     public List<FactHandle> getFactHandles() {

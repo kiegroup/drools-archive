@@ -23,6 +23,7 @@ import org.drools.core.InitialFact;
 import org.drools.core.beliefsystem.ModedAssertion;
 import org.drools.core.beliefsystem.simple.SimpleMode;
 import org.drools.core.phreak.RuleAgendaItem;
+import org.drools.core.reteoo.FromNodeLeftTuple;
 import org.drools.core.reteoo.LeftTuple;
 import org.drools.core.reteoo.TerminalNode;
 import org.drools.core.spi.Activation;
@@ -76,7 +77,7 @@ public interface AgendaItem<T extends ModedAssertion<T>> extends Activation<T> {
                 Object o = entry.getFactHandle().getObject();
                 if (!(o instanceof QueryElementFactHandle || o instanceof InitialFact)) {
                     list.add(o);
-                    list.addAll( entry.getAccumulatedObjects() );
+                    list.addAll(entry.getAccumulatedObjects() );
                 }
             }
             entry = entry.getParent();

@@ -158,7 +158,7 @@ public interface InternalFactHandle
         void forEachLeftTuple(Consumer<LeftTuple> leftTupleConsumer);
         LeftTuple findFirstLeftTuple(Predicate<LeftTuple> leftTuplePredicate );
 
-        LeftTuple getFirstLeftTuple( int partition);
+        LeftTuple getFirstLeftTuple(int partition);
         void setFirstLeftTuple( LeftTuple firstLeftTuple, int partition );
 
         default LeftTuple getFirstLeftTuple(RuleBasePartitionId partitionId) {
@@ -407,7 +407,7 @@ public interface InternalFactHandle
         }
 
         @Override
-        public LeftTuple findFirstLeftTuple( Predicate<LeftTuple> lefttTuplePredicate ) {
+        public LeftTuple findFirstLeftTuple(Predicate<LeftTuple> lefttTuplePredicate ) {
             throw new UnsupportedOperationException();
         }
 

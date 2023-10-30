@@ -24,7 +24,7 @@ import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.spi.PropagationContext;
 import org.drools.core.spi.Tuple;
 
-public class SubnetworkTuple extends BaseLeftTuple implements RightTuple {
+public class SubnetworkTuple extends LeftTuple implements RightTuple {
 
     private LeftTuple blocked;
     private LeftTuple tempBlocked;

@@ -21,7 +21,7 @@ import org.drools.core.spi.PropagationContext;
 
 import java.util.Arrays;
 
-public class EvalNodeLeftTuple extends BaseLeftTuple {
+public class EvalNodeLeftTuple extends LeftTuple {
 
     private static final long serialVersionUID = 540l;
 
