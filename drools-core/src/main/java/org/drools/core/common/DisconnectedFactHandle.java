@@ -186,7 +186,7 @@ public class DisconnectedFactHandle
     }
 
     @Override
-    public LeftTuple findFirstLeftTuple( Predicate<LeftTuple> lefttTuplePredicate ) {
+    public LeftTuple findFirstLeftTuple(Predicate<LeftTuple> lefttTuplePredicate ) {
         return null;
     }
 

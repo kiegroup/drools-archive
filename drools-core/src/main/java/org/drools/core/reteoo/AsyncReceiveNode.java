@@ -194,7 +194,7 @@ public class AsyncReceiveNode extends LeftTupleSource
     @Override
     public LeftTuple createPeer( LeftTuple original ) {
         EvalNodeLeftTuple peer = new EvalNodeLeftTuple();
-        peer.initPeer( ( BaseLeftTuple ) original, this );
+        peer.initPeer( original, this );
         original.setPeer( peer );
         return peer;
     }

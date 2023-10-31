@@ -105,6 +105,7 @@ import org.kie.api.definition.type.Role;
 import org.kie.internal.builder.KnowledgeBuilderResult;
 import org.kie.internal.builder.ResultSeverity;
 
+import static org.drools.compiler.lang.MVELDumper.normalizeEval;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.getNormalizeDate;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeEmptyKeyword;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeStringOperator;
@@ -1756,7 +1757,7 @@ public class PatternBuilder
                                                         final BaseDescr original,
                                                         final String expression) {
         DrlExprParser parser = new DrlExprParser(context.getConfiguration().getLanguageLevel());
-        ConstraintConnectiveDescr result = parser.parse(expression);
+        ConstraintConnectiveDescr result = parser.parse(normalizeEval(expression));
         result.setResource(patternDescr.getResource());
         result.copyLocation(original);
         if (parser.hasErrors()) {

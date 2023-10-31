@@ -34,6 +34,7 @@ import org.drools.core.reteoo.ObjectSource;
 import org.drools.core.reteoo.ObjectTypeNode;
 import org.drools.core.reteoo.QueryElementNode;
 import org.drools.core.reteoo.RightTuple;
+import org.drools.core.reteoo.RightTupleImpl;
 import org.drools.core.spi.Tuple;
 import org.drools.core.util.FastIterator;
 import org.drools.core.util.Iterator;
@@ -81,7 +82,7 @@ public class LeftTupleIterator
             BetaMemory memory = accmem.getBetaMemory();
             
             FastIterator localIt = memory.getLeftTupleMemory().fullFastIterator();
-            Tuple leftTuple = BetaNode.getFirstTuple( memory.getLeftTupleMemory(), localIt );
+            Tuple leftTuple = BetaNode.getFirstTuple(memory.getLeftTupleMemory(), localIt );
             if( leftTuple != null ) {
                 AccumulateContext accctx = (AccumulateContext) leftTuple.getContextObject();
                 return accctx.getResultLeftTuple();
@@ -158,7 +159,7 @@ public class LeftTupleIterator
                         return leftTuple;
                     }
                 }
-                
+
                 parentLeftTuple = getNextLeftTuple(  source.getLeftTupleSource(),
                                                      (LeftTupleSink) source,
                                                      parentLeftTuple,
@@ -273,7 +274,7 @@ public class LeftTupleIterator
         if ( source instanceof ExistsNode ) {
             BetaMemory memory = (BetaMemory) wm.getNodeMemory( (MemoryFactory) source );
             if (leftTuple != null) {
-                RightTuple rightTuple = leftTuple.getLeftParent().getBlocker();
+                RightTupleImpl rightTuple = (RightTupleImpl) leftTuple.getLeftParent().getBlocker();
                 FastIterator localIt = memory.getRightTupleMemory().fullFastIterator( rightTuple );
 
                 for ( LeftTuple childleftTuple = leftTuple.getHandleNext(); childleftTuple != null; childleftTuple = childleftTuple.getHandleNext() ) {
@@ -301,7 +302,7 @@ public class LeftTupleIterator
                         }
 
                     }
-                    rightTuple = (RightTuple) localIt.next( rightTuple );
+                    rightTuple = (RightTupleImpl) localIt.next( rightTuple );
                 }
             }
         } else if ( source instanceof EvalConditionNode || source instanceof QueryElementNode ) {

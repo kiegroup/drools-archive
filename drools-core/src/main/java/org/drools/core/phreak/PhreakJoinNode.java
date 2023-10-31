@@ -149,7 +149,7 @@ public class PhreakJoinNode {
                                                   wm,
                                                   rightTuple.getFactHandleForEvaluation() );
 
-                for ( LeftTuple leftTuple = joinNode.getFirstLeftTuple( rightTuple, ltm, it ); leftTuple != null; leftTuple = (LeftTuple) it.next( leftTuple ) ) {
+                for ( LeftTuple leftTuple = joinNode.getFirstLeftTuple(rightTuple, ltm, it ); leftTuple != null; leftTuple = (LeftTuple) it.next(leftTuple ) ) {
                     if ( leftTuple.getStagedType() == LeftTuple.UPDATE ) {
                         // ignore, as it will get processed via left iteration. Children cannot be processed twice
                         continue;
@@ -295,7 +295,7 @@ public class PhreakJoinNode {
 
             if ( ltm != null && ltm.size() > 0 ) {
                 FastIterator it = joinNode.getLeftIterator( ltm );
-                LeftTuple leftTuple = joinNode.getFirstLeftTuple( rightTuple, ltm, it );
+                LeftTuple leftTuple = joinNode.getFirstLeftTuple(rightTuple, ltm, it );
 
                 constraints.updateFromFactHandle( contextEntry,
                                                   wm,

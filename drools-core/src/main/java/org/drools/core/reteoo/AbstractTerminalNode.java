@@ -179,7 +179,7 @@ public abstract class AbstractTerminalNode extends BaseNode implements TerminalN
 
     public LeftTuple createPeer(LeftTuple original) {
         RuleTerminalNodeLeftTuple peer = new RuleTerminalNodeLeftTuple();
-        peer.initPeer( (BaseLeftTuple) original, this );
+        peer.initPeer( original, this );
         original.setPeer( peer );
         return peer;
     }

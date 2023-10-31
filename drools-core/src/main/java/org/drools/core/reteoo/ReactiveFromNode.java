@@ -118,7 +118,7 @@ public class ReactiveFromNode extends FromNode<ReactiveFromNode.ReactiveFromMemo
     @Override
     public LeftTuple createPeer(LeftTuple original) {
         ReactiveFromNodeLeftTuple peer = new ReactiveFromNodeLeftTuple();
-        peer.initPeer( (BaseLeftTuple) original, this );
+        peer.initPeer((LeftTuple) original, this );
         original.setPeer( peer );
         return peer;
     }

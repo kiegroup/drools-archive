@@ -594,7 +594,8 @@ public class CompositeObjectSinkAdapter implements ObjectSinkPropagator {
 
         if ( this.otherSinks != null ) {
             // propagate others
-            for ( ObjectSinkNode sink : this.otherSinks ) {
+            for (Object  sinkObject : this.otherSinks ) {
+                ObjectSinkNode sink = ObjectSinkNode.getObjectSinkNode(sinkObject);
                 doPropagateAssertObject( factHandle,
                                          context,
                                          workingMemory,
@@ -665,7 +666,8 @@ public class CompositeObjectSinkAdapter implements ObjectSinkPropagator {
 
         if ( this.otherSinks != null ) {
             // propagate others
-            for ( ObjectSinkNode sink : this.otherSinks ) {
+            for ( Object sinkObject : this.otherSinks ) {
+                ObjectSinkNode sink = ObjectSinkNode.getObjectSinkNode(sinkObject);
                 doPropagateModifyObject( factHandle,
                                          modifyPreviousTuples,
                                          context,
