@@ -67,7 +67,10 @@ public class PathMemory extends AbstractBaseLinkedListNode<Memory>
     }
 
     public RuleImpl getRule() {
-        return pathEndNode instanceof TerminalNode ? ((TerminalNode) pathEndNode).getRule() : null;
+        if (pathEndNode instanceof AbstractTerminalNode) {
+            return ((AbstractTerminalNode) pathEndNode).getRule();
+        }
+        return null;
     }
 
     public RuleAgendaItem getRuleAgendaItem() {
@@ -111,7 +114,7 @@ public class PathMemory extends AbstractBaseLinkedListNode<Memory>
     }
 
     private TerminalNode ensureAgendaItemCreated(InternalAgenda agenda) {
-        TerminalNode rtn = (TerminalNode) getPathEndNode();
+        AbstractTerminalNode rtn = (AbstractTerminalNode) getPathEndNode();
         if (agendaItem == null) {
             int salience = rtn.getRule().getSalience().isDynamic() ? 0 : rtn.getRule().getSalience().getValue();
             agendaItem = agenda.createRuleAgendaItem(salience, this, rtn);

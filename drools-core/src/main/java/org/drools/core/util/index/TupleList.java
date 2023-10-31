@@ -19,6 +19,7 @@ package org.drools.core.util.index;
 import java.io.Serializable;
 
 import org.drools.core.common.InternalFactHandle;
+import org.drools.core.reteoo.BaseTuple;
 import org.drools.core.reteoo.TupleMemory;
 import org.drools.core.spi.Tuple;
 import org.drools.core.util.Entry;
@@ -85,8 +86,8 @@ public class TupleList<C> implements TupleMemory, Entry<TupleList<C>>, Serializa
             return;
         }
 
-        Tuple previous = tuple.getPrevious();
-        Tuple next = tuple.getNext();
+        BaseTuple previous = (BaseTuple) tuple.getPrevious();
+        BaseTuple next = tuple.getNext();
         if (previous == null) {
             next.setPrevious( null );
             this.first = next;
@@ -95,7 +96,7 @@ public class TupleList<C> implements TupleMemory, Entry<TupleList<C>>, Serializa
             next.setPrevious( previous );
         }
 
-        this.last.setNext( tuple );
+        this.last.setNext((BaseTuple) tuple);
         tuple.setPrevious( this.last );
         tuple.setNext( null );
         this.last = tuple;
@@ -103,7 +104,7 @@ public class TupleList<C> implements TupleMemory, Entry<TupleList<C>>, Serializa
 
     public void add(final Tuple tuple) {
         if ( this.last != null ) {
-            this.last.setNext( tuple );
+            this.last.setNext( (BaseTuple) tuple );
             tuple.setPrevious( this.last );
             this.last = tuple;
         } else {
@@ -117,7 +118,7 @@ public class TupleList<C> implements TupleMemory, Entry<TupleList<C>>, Serializa
 
     public void remove(final Tuple tuple) {
         Tuple previous = tuple.getPrevious();
-        Tuple next = tuple.getNext();
+        BaseTuple next = tuple.getNext();
 
         if ( previous != null && next != null ) {
             // remove from middle

@@ -69,7 +69,7 @@ public class ReactiveFromNodeLeftTuple extends FromNodeLeftTuple {
     }
 
     @Override
-    public void initPeer( BaseLeftTuple original, LeftTupleSink sink ) {
+    public void initPeer(LeftTuple original, LeftTupleSink sink ) {
         super.initPeer( original, sink );
         if ( original instanceof ReactiveFromNodeLeftTuple ) {
             ReactiveFromNodeLeftTuple reactiveTuple = ( (ReactiveFromNodeLeftTuple) original );

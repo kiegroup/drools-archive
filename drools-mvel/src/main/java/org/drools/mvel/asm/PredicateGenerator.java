@@ -88,7 +88,7 @@ public class PredicateGenerator {
                     mv.visitVarInsn(ALOAD, 5); // workingMemory
 
                     mv.visitVarInsn(ALOAD, 7);
-                    invokeInterface(LeftTuple.class, "getFactHandle", InternalFactHandle.class);
+                    invokeVirtual(LeftTuple.class, "getFactHandle", InternalFactHandle.class);
                     invokeInterface(InternalFactHandle.class, "getObject", Object.class); // tuple.getFactHandle().getObject()
 
                     storeObjectFromDeclaration(previousDeclarations[i], previousDeclarations[i].getTypeName());
@@ -116,6 +116,6 @@ public class PredicateGenerator {
             }
         });
 
-        stub.setPredicate(generator.<PredicateExpression>newInstance());
+        stub.setPredicate(generator.newInstance());
     }
 }

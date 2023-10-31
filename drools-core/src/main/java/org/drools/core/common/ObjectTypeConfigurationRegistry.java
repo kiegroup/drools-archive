@@ -23,10 +23,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.facttemplates.Fact;
+import org.drools.core.facttemplates.FactImpl;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.reteoo.ClassObjectTypeConf;
 import org.drools.core.reteoo.FactTemplateTypeConf;
 import org.drools.core.reteoo.ObjectTypeConf;
+import org.drools.core.reteoo.RuleTerminalNodeLeftTuple;
 import org.drools.core.rule.EntryPointId;
 import org.drools.core.spi.Activation;
 
@@ -62,12 +64,18 @@ public class ObjectTypeConfigurationRegistry implements Serializable {
         return conf;
     }
 
+    // Avoid secondary super cache invalidation by testing for abstract classes first
+    // Then interfaces
+    // See: https://issues.redhat.com/browse/DROOLS-7521
     private Object getKey( Object object ) {
-        if ( object instanceof Activation) {
+        if (object instanceof RuleTerminalNodeLeftTuple) {
             return ClassObjectType.Match_ObjectType.getClassType();
-        }
-        if ( object instanceof Fact) {
+        } else if (object instanceof FactImpl) {
+            return ((FactImpl) object).getFactTemplate().getName();
+        } else if (object instanceof Fact) {
             return ((Fact) object).getFactTemplate().getName();
+        } else if (object instanceof Activation) {
+            return ClassObjectType.Match_ObjectType.getClassType();
         }
         return object.getClass();
     }

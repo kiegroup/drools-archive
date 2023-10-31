@@ -30,6 +30,8 @@ import org.drools.core.spi.Salience;
 import org.drools.core.spi.Tuple;
 import org.kie.api.event.rule.MatchCancelledCause;
 
+import static org.drools.core.common.AgendaItem.getAgendaItem;
+
 /**
 * Created with IntelliJ IDEA.
 * User: mdproctor
@@ -92,7 +94,7 @@ public class PhreakRuleTerminalNode {
             return;
         }
 
-        int salienceInt = getSalienceValue( rtnNode, ruleAgendaItem, ( AgendaItem ) leftTuple, wm );
+        int salienceInt = getSalienceValue( rtnNode, ruleAgendaItem, getAgendaItem(leftTuple), wm );
 
         RuleTerminalNodeLeftTuple rtnLeftTuple = (RuleTerminalNodeLeftTuple) leftTuple;
         agenda.createAgendaItem( rtnLeftTuple, salienceInt, pctx, ruleAgendaItem, ruleAgendaItem.getAgendaGroup() );

@@ -19,7 +19,7 @@ package org.drools.core.reteoo;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.spi.PropagationContext;
 
-public class QueryRiaFixerNodeLeftTuple extends BaseLeftTuple {
+public class QueryRiaFixerNodeLeftTuple extends LeftTuple {
     private static final long  serialVersionUID = 540l;
 
     public QueryRiaFixerNodeLeftTuple() {

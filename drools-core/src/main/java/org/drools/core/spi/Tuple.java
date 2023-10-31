@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.NetworkNode;
+import org.drools.core.reteoo.BaseTuple;
 import org.drools.core.reteoo.LeftTuple;
 import org.drools.core.reteoo.ObjectTypeNode;
 import org.drools.core.reteoo.Sink;
@@ -32,7 +33,7 @@ import org.drools.core.util.index.TupleList;
  * Is able to return the <code>FactHandleImpl</code> members of the partial match for the requested pattern.
  * The pattern refers to the index position of the <code>FactHandleImpl</code> in the underlying implementation.
  */
-public interface Tuple extends Serializable, Entry<Tuple> {
+public interface Tuple extends Serializable, Entry<BaseTuple> {
 
     short NONE   = 0;
     short INSERT = 1;

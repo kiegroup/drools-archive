@@ -430,7 +430,8 @@ public class SegmentUtilities {
                 }
 
             } else if (NodeTypeEnums.isTerminalNode(sink)) {
-                pmem = (PathMemory) wm.getNodeMemory((MemoryFactory) sink);
+                MemoryFactory terminalNode = MemoryFactory.getTerminalNode(sink);
+                pmem = (PathMemory) wm.getNodeMemory(terminalNode);
             }
 
             if (pmem != null && smem.getPos() < pmem.getSegmentMemories().length) {

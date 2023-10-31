@@ -450,8 +450,8 @@ public class SegmentMemory extends LinkedList<SegmentMemory>
             smem.segmentPosMaskBit = segmentPosMaskBit;
             smem.pos = pos;
             int i = 0;
-            for (NetworkNode node : getNodesInSegment(smem)) {
-                Memory mem = wm.getNodeMemory((MemoryFactory) node);
+            for (Object nodeObject : getNodesInSegment(smem)) {
+                Memory mem = wm.getNodeMemory(MemoryFactory.getMemoryFactory(nodeObject));
                 mem.setSegmentMemory(smem);
                 smem.getNodeMemories().add(mem);
                 MemoryPrototype proto = memories.get(i++);
