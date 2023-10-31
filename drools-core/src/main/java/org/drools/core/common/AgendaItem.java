@@ -24,6 +24,7 @@ import org.drools.core.beliefsystem.ModedAssertion;
 import org.drools.core.beliefsystem.simple.SimpleMode;
 import org.drools.core.phreak.RuleAgendaItem;
 import org.drools.core.reteoo.LeftTuple;
+import org.drools.core.reteoo.RuleTerminalNodeLeftTuple;
 import org.drools.core.reteoo.TerminalNode;
 import org.drools.core.spi.Activation;
 import org.drools.core.spi.PropagationContext;
@@ -76,7 +77,7 @@ public interface AgendaItem<T extends ModedAssertion<T>> extends Activation<T> {
                 Object o = entry.getFactHandle().getObject();
                 if (!(o instanceof QueryElementFactHandle || o instanceof InitialFact)) {
                     list.add(o);
-                    list.addAll( entry.getAccumulatedObjects() );
+                    list.addAll(entry.getAccumulatedObjects() );
                 }
             }
             entry = entry.getParent();
@@ -95,4 +96,19 @@ public interface AgendaItem<T extends ModedAssertion<T>> extends Activation<T> {
         }
         return Collections.unmodifiableList(list);
     }
+
+
+    // Avoid secondary super cache invalidation by testing for abstract classes first
+    // Then interfaces
+    // See: https://issues.redhat.com/browse/DROOLS-7521
+    static AgendaItem getAgendaItem(Tuple tuple) {
+        AgendaItem item = null;
+        if (tuple instanceof AgendaItemImpl) {
+            item = (AgendaItem) tuple;
+        } else if (tuple instanceof RuleTerminalNodeLeftTuple) {
+            item = (RuleTerminalNodeLeftTuple) tuple;
+        }
+        return item;
+    }
+
 }

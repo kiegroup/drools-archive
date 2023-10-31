@@ -38,7 +38,7 @@ public abstract class AbstractQueryViewListener implements InternalViewChangedEv
             entry = entry.getParent();
         }
 
-        QueryTerminalNode node = tuple.getTupleSink();
+        QueryTerminalNode node = (QueryTerminalNode) tuple.getTupleSink();
         this.results.add( new QueryRowWithSubruleIndex(handles, node.getSubruleIndex()) );
     }
 

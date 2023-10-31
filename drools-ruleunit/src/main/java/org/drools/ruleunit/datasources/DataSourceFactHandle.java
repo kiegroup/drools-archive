@@ -312,7 +312,7 @@ public class DataSourceFactHandle implements InternalFactHandle {
     }
 
     @Override
-    public LeftTuple findFirstLeftTuple( Predicate<LeftTuple> lefttTuplePredicate ) {
+    public LeftTuple findFirstLeftTuple(Predicate<LeftTuple> lefttTuplePredicate ) {
         throw new UnsupportedOperationException( "org.drools.core.datasources.CursoredDataSource.DataSourceFactHandle.findFirstLeftTuple -> TODO" );
 
     }

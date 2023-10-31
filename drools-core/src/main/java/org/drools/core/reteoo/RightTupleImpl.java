@@ -52,8 +52,14 @@ public class RightTupleImpl extends BaseTuple implements RightTuple {
         handle.addLastRightTuple( this );
     }
 
+    // It's better to always cast to a concrete or abstract class to avoid
+    // secondary super cache problem. See https://issues.redhat.com/browse/DROOLS-7521
     public RightTupleSink getTupleSink() {
-        return (RightTupleSink) sink;
+        if(sink instanceof BetaNode) {
+            return (BetaNode)sink;
+        } else {
+            return (RightTupleSink) sink;
+        }
     }
     
     public void reAdd() {
@@ -122,12 +128,12 @@ public class RightTupleImpl extends BaseTuple implements RightTuple {
         this.memory = memory;
     }
 
-    public RightTuple getHandlePrevious() {
-        return (RightTuple) handlePrevious;
+    public RightTupleImpl getHandlePrevious() {
+        return (RightTupleImpl) handlePrevious;
     }
 
-    public RightTuple getHandleNext() {
-        return (RightTuple) handleNext;
+    public RightTupleImpl getHandleNext() {
+        return (RightTupleImpl) handleNext;
     }
 
     public LeftTuple getFirstChild() {
@@ -146,12 +152,12 @@ public class RightTupleImpl extends BaseTuple implements RightTuple {
         this.lastChild = lastChild;
     }
     
-    public RightTuple getStagedNext() {
-        return (RightTuple) stagedNext;
+    public RightTupleImpl getStagedNext() {
+        return (RightTupleImpl) stagedNext;
     }
 
-    public RightTuple getStagedPrevious() {
-        return (RightTuple) stagedPrevious;
+    public RightTupleImpl getStagedPrevious() {
+        return (RightTupleImpl) stagedPrevious;
     }
 
     public LeftTuple getTempBlocked() {

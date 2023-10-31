@@ -75,7 +75,6 @@ import org.drools.core.rule.EvalCondition;
 import org.drools.core.rule.GroupElement;
 import org.drools.core.rule.JavaDialectRuntimeData;
 import org.drools.core.rule.Pattern;
-import org.drools.core.rule.PredicateConstraint;
 import org.drools.core.rule.SlidingTimeWindow;
 import org.drools.core.rule.TypeDeclaration;
 import org.drools.core.spi.Activation;
@@ -462,7 +461,7 @@ public class KnowledgeBuilderTest extends DroolsTestCase {
            fail( builder1.getErrors().toString() );
         }
         final Pattern pattern1 = (Pattern) ((RuleImpl)builder1.getPackage("package1").getRules().iterator().next()).getLhs().getChildren().get( 0 );
-        final PredicateConstraint predicate1 = (PredicateConstraint) pattern1.getConstraints().get( 0 );
+        final Constraint predicate1 = pattern1.getConstraints().get( 0 );
 
         final KnowledgeBuilderImpl builder2 = new KnowledgeBuilderImpl();
         final PackageDescr packageDescr2 = new PackageDescr( "package2" );
@@ -474,7 +473,7 @@ public class KnowledgeBuilderTest extends DroolsTestCase {
          }
         
         final Pattern pattern2 = (Pattern) ((RuleImpl)builder2.getPackage("package2").getRules().iterator().next()).getLhs().getChildren().get( 0 );
-        final PredicateConstraint predicate2 = (PredicateConstraint) pattern2.getConstraints().get( 0 );
+        final Constraint predicate2 = pattern2.getConstraints().get( 0 );
 
         final KnowledgeBuilderImpl builder3 = new KnowledgeBuilderImpl();
         if ( builder3.hasErrors() ) {
@@ -485,7 +484,7 @@ public class KnowledgeBuilderTest extends DroolsTestCase {
                              "eval(x!=y)" );
         builder3.addPackage( packageDescr3 );
         final Pattern pattern3 = (Pattern) ((RuleImpl)builder3.getPackage("package3").getRules().iterator().next()).getLhs().getChildren().get( 0 );
-        final PredicateConstraint predicate3 = (PredicateConstraint) pattern3.getConstraints().get( 0 );
+        final Constraint predicate3 = pattern3.getConstraints().get( 0 );
 
         assertThat(predicate2).isEqualTo(predicate1);
         assertThat(predicate1.equals(predicate3)).isFalse();

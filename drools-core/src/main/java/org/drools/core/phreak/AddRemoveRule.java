@@ -992,7 +992,7 @@ public class AddRemoveRule {
 
     private static void visitChild(LeftTuple lt, boolean insert, InternalWorkingMemory wm, Rule rule) {
         LeftTuple prevLt = null;
-        LeftTupleSinkNode sink = lt.getTupleSink();
+        LeftTupleSinkNode sink = (LeftTupleSinkNode) lt.getTupleSink();
 
         for ( ; sink != null; sink = sink.getNextLeftTupleSinkNode() ) {
 
@@ -1035,7 +1035,7 @@ public class AddRemoveRule {
     private static void insertPeerRightTuple( LeftTuple lt, InternalWorkingMemory wm, Rule rule, boolean insert ) {
         // There's a shared RightInputAdaterNode, so check if one of its sinks is associated only to the new rule
         LeftTuple prevLt = null;
-        RightInputAdapterNode rian = lt.getTupleSink();
+        RightInputAdapterNode rian = (RightInputAdapterNode) lt.getTupleSink();
 
         for (ObjectSink sink : rian.getObjectSinkPropagator().getSinks()) {
             if (lt != null) {

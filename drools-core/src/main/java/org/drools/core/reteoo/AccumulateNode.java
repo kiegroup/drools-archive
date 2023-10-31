@@ -45,7 +45,6 @@ import org.drools.core.spi.ObjectType;
 import org.drools.core.spi.PropagationContext;
 import org.drools.core.spi.Tuple;
 import org.drools.core.util.AbstractBaseLinkedListNode;
-import org.drools.core.util.FastIterator;
 import org.drools.core.util.bitmask.BitMask;
 import org.drools.core.util.index.TupleList;
 
@@ -498,7 +497,7 @@ public class AccumulateNode extends BetaNode {
 
     public LeftTuple createPeer(LeftTuple original) {
         FromNodeLeftTuple peer = new FromNodeLeftTuple();
-        peer.initPeer((BaseLeftTuple) original, this);
+        peer.initPeer( original, this);
         original.setPeer(peer);
         return peer;
     }

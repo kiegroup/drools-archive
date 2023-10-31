@@ -3,6 +3,7 @@ package org.drools.testcoverage.kieci.withoutdomain;
 import org.drools.testcoverage.kieci.withoutdomain.util.KJarLoadUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
@@ -16,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * Tests must NOT have access to domain classes in test-domain module (BZ 1305798).
  */
+@Ignore("Not work with RH repo")
 public class KJarLoadingTest {
 
     private static final KieServices KS = KieServices.Factory.get();

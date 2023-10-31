@@ -23,6 +23,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.drools.core.impl.InternalKnowledgeBase;
+import org.drools.core.reteoo.BetaMemory;
 import org.drools.core.reteoo.SegmentMemory;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
 
@@ -48,7 +49,7 @@ public class ConcurrentNodeMemories implements NodeMemories {
             this.memories.set(node.getMemoryId(), null);
         }
     }
-    
+
     public void clear() {
         this.memories = new AtomicReferenceArray<Memory>( this.kBase.getMemoryCount(unitName) );
     }
@@ -81,16 +82,23 @@ public class ConcurrentNodeMemories implements NodeMemories {
      * The implementation tries to delay locking as much as possible, by running
      * some potentially unsafe operations out of the critical session. In case it
      * fails the checks, it will move into the critical sessions and re-check everything
-     * before effectively doing any change on data structures. 
+     * before effectively doing any change on data structures.
      */
     public Memory getNodeMemory(MemoryFactory node, InternalWorkingMemory wm) {
         if( node.getMemoryId() >= this.memories.length() ) {
             resize( node );
         }
-        Memory memory = this.memories.get( node.getMemoryId() );
+        Object memoryObject = this.memories.get(node.getMemoryId());
 
-        if( memory == null ) {
-            memory = createNodeMemory( node, wm );
+        if (memoryObject == null) {
+            memoryObject = createNodeMemory(node, wm);
+        }
+
+        Memory memory;
+        if (memoryObject instanceof BetaMemory) {
+             memory = (BetaMemory) memoryObject;
+        } else {
+            memory = (Memory) memoryObject;
         }
 
         return memory;
