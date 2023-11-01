@@ -21,7 +21,7 @@ import org.drools.core.spi.PropagationContext;
 
 import java.util.Arrays;
 
-public class LeftTupleImpl extends BaseLeftTuple {
+public class LeftTupleImpl extends LeftTuple {
     private static final long serialVersionUID = 540l;
 
     private RightTuple blocker;

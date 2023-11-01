@@ -19,7 +19,6 @@ package org.drools.core.reteoo;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.util.Arrays;
 import java.util.List;
 
 import org.drools.core.RuleBaseConfiguration;
@@ -293,7 +292,7 @@ public class QueryElementNode extends LeftTupleSource
                              LeftTuple resultLeftTuple,
                              InternalWorkingMemory workingMemory) {
 
-            QueryTerminalNode queryTerminalNode = resultLeftTuple.getTupleSink();
+            QueryTerminalNode queryTerminalNode = (QueryTerminalNode) resultLeftTuple.getTupleSink();
             QueryImpl query = queryTerminalNode.getQuery();
             Declaration[] decls = queryTerminalNode.getRequiredDeclarations();
             DroolsQuery dquery = (DroolsQuery) this.factHandle.getObject();
@@ -447,7 +446,7 @@ public class QueryElementNode extends LeftTupleSource
             resultLeftTuple.setContextObject( null );
 
             // We need to recopy everything back again, as we don't know what has or hasn't changed
-            QueryTerminalNode queryTerminalNode = resultLeftTuple.getTupleSink();
+            QueryTerminalNode queryTerminalNode = (QueryTerminalNode) resultLeftTuple.getTupleSink();
             Declaration[] decls = queryTerminalNode.getRequiredDeclarations();
             InternalFactHandle rootHandle = resultLeftTuple.get( 0 );
             DroolsQuery dquery = (DroolsQuery) rootHandle.getObject();
@@ -754,7 +753,7 @@ public class QueryElementNode extends LeftTupleSource
     @Override
     public LeftTuple createPeer(LeftTuple original) {
         QueryElementNodeLeftTuple peer = new QueryElementNodeLeftTuple();
-        peer.initPeer((BaseLeftTuple) original, this);
+        peer.initPeer((LeftTuple) original, this);
         original.setPeer(peer);
         return peer;
     }

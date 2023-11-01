@@ -27,6 +27,25 @@ public interface ObjectSinkNode
     extends
     ObjectSink {
 
+    // Avoid secondary super cache invalidation by testing for abstract classes first
+    // Then interfaces
+    // See: https://issues.redhat.com/browse/DROOLS-7521
+    static ObjectSinkNode getObjectSinkNode(Object sinkObject) {
+        if(sinkObject instanceof AccumulateNode) {
+            return (AccumulateNode) sinkObject;
+        } else if(sinkObject instanceof LeftInputAdapterNode) {
+            return (LeftInputAdapterNode) sinkObject;
+        } else if(sinkObject instanceof WindowNode) {
+            return (WindowNode) sinkObject;
+        } else if (sinkObject instanceof BetaNode) {
+            return (BetaNode) sinkObject;
+        } else if (sinkObject instanceof AlphaNode) {
+            return (AlphaNode) sinkObject;
+        } else {
+            return (ObjectSinkNode) sinkObject;
+        }
+    }
+
     /**
      * Returns the next node
      * @return

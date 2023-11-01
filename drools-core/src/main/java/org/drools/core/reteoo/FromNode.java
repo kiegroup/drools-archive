@@ -220,7 +220,7 @@ public class FromNode<T extends FromNode.FromMemory> extends LeftTupleSource
     }
 
     @SuppressWarnings("unchecked")
-    public RightTuple createRightTuple( final LeftTuple leftTuple,
+    public RightTupleImpl createRightTuple( final LeftTuple leftTuple,
                                         final PropagationContext context,
                                         final InternalWorkingMemory workingMemory,
                                         final Object object ) {
@@ -252,7 +252,7 @@ public class FromNode<T extends FromNode.FromMemory> extends LeftTupleSource
                 // this is for the obscene case where two or more objects returned by "from"
                 // have the same hash code and evaluate equals() to true, so we need to preserve
                 // all of them to avoid leaks
-                rightTuple.setNext( existingMatch );
+                rightTuple.setNext((BaseTuple) existingMatch);
             }
             matches.put( object,
                          rightTuple );
@@ -273,7 +273,7 @@ public class FromNode<T extends FromNode.FromMemory> extends LeftTupleSource
     @Override
     public LeftTuple createPeer(LeftTuple original) {
         FromNodeLeftTuple peer = new FromNodeLeftTuple();
-        peer.initPeer( (BaseLeftTuple) original, this );
+        peer.initPeer((LeftTuple) original, this );
         original.setPeer( peer );
         return peer;
     }    

@@ -92,7 +92,7 @@ public class EvalGenerator {
                     mv.visitVarInsn(ALOAD, 3); // workingMemory
 
                     mv.visitVarInsn(ALOAD, 5);
-                    invokeInterface(LeftTuple.class, "getFactHandle", InternalFactHandle.class);
+                    invokeInterface(Tuple.class, "getFactHandle", InternalFactHandle.class);
                     invokeInterface(InternalFactHandle.class, "getObject", Object.class); // tuple.getFactHandle().getObject()
 
                     storeObjectFromDeclaration(declarations[i], expectedDeclarations[i]);

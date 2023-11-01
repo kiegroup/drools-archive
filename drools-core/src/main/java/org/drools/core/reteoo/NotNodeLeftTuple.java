@@ -28,7 +28,7 @@ import org.drools.core.rule.ContextEntry;
 import org.drools.core.spi.PropagationContext;
 import org.drools.core.util.FastIterator;
 
-public class NotNodeLeftTuple extends BaseLeftTuple {
+public class NotNodeLeftTuple extends LeftTuple {
     private static final long serialVersionUID = 540l;
 
     private RightTuple blocker;
@@ -162,7 +162,6 @@ public class NotNodeLeftTuple extends BaseLeftTuple {
         this.blockedNext = blockerNext;
     }
 
-    @Override
     public Collection<Object> getAccumulatedObjects() {
         if (NodeTypeEnums.ExistsNode != getTupleSink().getType()) {
             return Collections.emptyList();

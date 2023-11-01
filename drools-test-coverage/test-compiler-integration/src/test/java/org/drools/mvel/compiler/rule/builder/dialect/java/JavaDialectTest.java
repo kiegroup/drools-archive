@@ -34,6 +34,7 @@ import org.drools.mvel.compiler.Person;
 import org.drools.testcoverage.common.util.KieBaseTestConfiguration;
 import org.drools.testcoverage.common.util.KieBaseUtil;
 import org.drools.testcoverage.common.util.TestParametersUtil;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -59,6 +60,7 @@ public class JavaDialectTest {
     }
     
     @Test
+    @Ignore("PredicateExpresisons are no more after DROOLS-6960")
     public void testEvalDetectionInAlphaNode() {
         // Tests evals are generated and executed with Java dialect
         String drl = "";
@@ -98,6 +100,7 @@ public class JavaDialectTest {
     
 
     @Test
+    @Ignore("PredicateExpresisons are no more after DROOLS-6960")
     public void testEvalDetectionInBetaNode() {
         // Tests evals are generated and executed with Java dialect
         
