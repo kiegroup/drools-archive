@@ -16,6 +16,7 @@
 package org.drools.persistence.api;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.SortedSet;
