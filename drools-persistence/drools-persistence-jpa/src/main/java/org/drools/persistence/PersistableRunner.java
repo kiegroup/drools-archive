@@ -151,7 +151,7 @@ public class PersistableRunner implements SingleSessionCommandService {
 
         ((InternalKnowledgeRuntime) this.ksession).setEndOperationListener( new EndOperationListenerImpl(this.txm, this.sessionInfo ) );
 
-        this.runner = new TransactionInterceptor();
+        this.runner = new TransactionInterceptor(sessionInfo);
 
         TimerJobFactoryManager timerJobFactoryManager = ((InternalKnowledgeRuntime) ksession ).getTimerService().getTimerJobFactoryManager();
         if (timerJobFactoryManager instanceof CommandServiceTimerJobFactoryManager) {
@@ -258,7 +258,7 @@ public class PersistableRunner implements SingleSessionCommandService {
         kruntime.setIdentifier( this.sessionInfo.getId() );
         kruntime.setEndOperationListener( new EndOperationListenerImpl( this.txm, this.sessionInfo ) );
 
-        this.runner = new TransactionInterceptor();
+        this.runner = new TransactionInterceptor(sessionInfo);
         // apply interceptors
         Iterator<ChainableRunner> iterator = this.interceptors.descendingIterator();
         while (iterator.hasNext()) {
@@ -504,6 +504,7 @@ public class PersistableRunner implements SingleSessionCommandService {
             this.service.jpm.endCommandScopedEntityManager();
 
             KieSession ksession = this.service.ksession;
+            logger.debug("Cleaning up session {} information", ksession != null ? ksession.getIdentifier() : null);
             // clean up cached process and work item instances
             if ( ksession != null ) {
                 InternalProcessRuntime internalProcessRuntime = ((InternalWorkingMemory) ksession).internalGetProcessRuntime();
@@ -513,8 +514,11 @@ public class PersistableRunner implements SingleSessionCommandService {
                     }
 
                     internalProcessRuntime.clearProcessInstances();
+                    logger.debug("Cached process instances after clean up {}",internalProcessRuntime.getProcessInstances());
                 }
+                
                 ((JPAWorkItemManager) ksession.getWorkItemManager()).clearWorkItems();
+                
             }
             if (status != TransactionManager.STATUS_COMMITTED) {
                 this.service.jpm.resetApplicationScopedPersistenceContext();
@@ -567,14 +571,16 @@ public class PersistableRunner implements SingleSessionCommandService {
 
     private class TransactionInterceptor extends AbstractInterceptor {
 
+        private SessionInfo sessionInfo;
 
-
-        public TransactionInterceptor() {
+        public TransactionInterceptor(SessionInfo sessionInfo) {
+            this.sessionInfo = sessionInfo;
             setNext(new PseudoClockRunner());
         }
 
         @Override
         public RequestContext execute( Executable executable, RequestContext context ) {
+            
             if ( !( (InternalExecutable) executable ).canRunInTransaction() ) {
                 executeNext(executable, context);
                 if (((InternalExecutable) executable ).requiresDispose()) {
