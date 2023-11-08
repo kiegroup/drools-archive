@@ -16,7 +16,6 @@
 package org.drools.persistence.api;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.SortedSet;
@@ -62,7 +61,10 @@ public class TransactionManagerHelper {
     public static Set<Transformable> getUpdateableSet(TransactionManager txm) {
         Set<Transformable> result = (Set<Transformable>) txm.getResource(APP_UPDETEABLE_RESOURCE);
         if (result != null) {
-            SortedSet<Transformable> sorted = new TreeSet<>(Comparator.comparing(o -> o.getClass().getSimpleName()));
+            SortedSet<Transformable> sorted = new TreeSet<>((o1, o2) -> {
+                int compared = o1.getClass().getSimpleName().compareTo(o2.getClass().getSimpleName());
+                return compared == 0 ? 1 : compared;
+            });
             sorted.addAll(result);
             return sorted;
         }
