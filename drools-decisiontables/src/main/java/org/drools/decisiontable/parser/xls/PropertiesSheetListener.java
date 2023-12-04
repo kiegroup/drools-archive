@@ -40,7 +40,7 @@ public class PropertiesSheetListener implements DataListener {
 
     private static final String EMPTY_STRING   = "";
 
-    private final Map<Integer, String[]> _rowProperties = new HashMap<>();
+    private final Map<Integer, String[]> _rowProperties = new LinkedHashMap<>();
 
     private final CaseInsensitiveMap _properties = new CaseInsensitiveMap();
 
