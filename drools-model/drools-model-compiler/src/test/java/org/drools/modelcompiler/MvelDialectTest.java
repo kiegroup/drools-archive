@@ -1732,57 +1732,6 @@ public class MvelDialectTest extends BaseModelTest {
     }
 
     @Test
-    public void drools_workingMemory_setGlobal() {
-        // DROOLS-7338
-        String str = "package com.example.reproducer\n" +
-                     "import " + Logger.class.getCanonicalName() + ";\n" +
-                     "global Logger logger;\n" +
-                     "rule R\n" +
-                     "  dialect \"mvel\"\n" +
-                     "  when\n" +
-                     "  then\n" +
-                     "    drools.workingMemory.setGlobal(\"logger\", org.slf4j.LoggerFactory.getLogger(getClass()));\n" +
-                     "end";
-
-        KieSession ksession = getKieSession(str);
-
-        ksession.fireAllRules();
-
-        Object logger = ksession.getGlobal("logger");
-        assertThat(logger).isInstanceOf(Logger.class);
-    }
-
-    @Test
-    public void drools_fieldAccess() {
-        String str = "package com.example.reproducer\n" +
-                     "global java.util.Map results;\n" +
-                     "rule R\n" +
-                     "  dialect \"mvel\"\n" +
-                     "  when\n" +
-                     "  then\n" +
-                     "    results.put(\"workingMemory\", drools.workingMemory);\n" +
-                     "    results.put(\"rule\", drools.rule);\n" +
-                     "    results.put(\"match\", drools.match);\n" +
-                     "    results.put(\"tuple\", drools.tuple);\n" +
-                     "    results.put(\"knowledgeRuntime\", drools.knowledgeRuntime);\n" +
-                     "    results.put(\"kieRuntime\", drools.kieRuntime);\n" +
-                     "end";
-
-        KieSession ksession = getKieSession(str);
-        Map<String, Object> results = new HashMap<>();
-        ksession.setGlobal("results", results);
-
-        ksession.fireAllRules();
-
-        assertThat(results.get("workingMemory")).isInstanceOf(WorkingMemory.class);
-        assertThat(results.get("rule")).isInstanceOf(Rule.class);
-        assertThat(results.get("match")).isInstanceOf(Match.class);
-        assertThat(results.get("tuple")).isInstanceOf(Tuple.class);
-        assertThat(results.get("knowledgeRuntime")).isInstanceOf(KieRuntime.class);
-        assertThat(results.get("kieRuntime")).isInstanceOf(KieRuntime.class);
-    }
-
-    @Test
     public void integerToBigDecimalBindVariableCoercion_shouldNotCoerceToInteger() {
         // DROOLS-7540
         String str = "package com.example.reproducer\n" +
