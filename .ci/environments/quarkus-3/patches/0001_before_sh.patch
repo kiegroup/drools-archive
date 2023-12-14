@@ -5897,15 +5897,17 @@ index 46ce5d7bee..df844bcf3a 100644
      }
  
 diff --git a/kie-pmml-trusty/kie-pmml-compiler/kie-pmml-compiler-core/src/test/java/org/kie/pmml/compiler/testingutils/TestingModel.java b/kie-pmml-trusty/kie-pmml-compiler/kie-pmml-compiler-core/src/test/java/org/kie/pmml/compiler/testingutils/TestingModel.java
-index feb38f91b9..4d7c7c5834 100644
+index feb38f91b9..0b65430756 100644
 --- a/kie-pmml-trusty/kie-pmml-compiler/kie-pmml-compiler-core/src/test/java/org/kie/pmml/compiler/testingutils/TestingModel.java
 +++ b/kie-pmml-trusty/kie-pmml-compiler/kie-pmml-compiler-core/src/test/java/org/kie/pmml/compiler/testingutils/TestingModel.java
-@@ -107,5 +107,15 @@ public class TestingModel extends Model {
+@@ -106,6 +106,22 @@ public class TestingModel extends Model {
+     public String getModelName() {
          return modelName;
      }
- 
 +    @Override
-+    public MiningFunction requireMiningFunction() {
++    public java.ngFunction requireMiningFunction;
++
++    TestingModel() {
 +        return null;
 +    }
 +
@@ -5914,6 +5916,11 @@ index feb38f91b9..4d7c7c5834 100644
 +        return null;
 +    }
 +
++    @Override
++    public MiningFunction requireMiningFunction() {
++        return null;
++    }
+ 
  
  }
 diff --git a/kie-pmml-trusty/kie-pmml-models/kie-pmml-models-clustering/kie-pmml-models-clustering-compiler/src/main/java/org/kie/pmml/models/clustering/compiler/factories/KiePMMLClusteringModelFactory.java b/kie-pmml-trusty/kie-pmml-models/kie-pmml-models-clustering/kie-pmml-models-clustering-compiler/src/main/java/org/kie/pmml/models/clustering/compiler/factories/KiePMMLClusteringModelFactory.java
