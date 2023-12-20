@@ -631,4 +631,55 @@ public class BigDecimalTest extends BaseModelTest {
             return String.format("%,d", bd.longValue());
         }
     }
+
+    @Test
+    public void bigDecimalCoercionInMethodArgument_shouldNotFailToBuild() {
+        // KIE-748
+        String str =
+                "package org.drools.modelcompiler.bigdecimals\n" +
+                        "import " + BDFact.class.getCanonicalName() + ";\n" +
+                        "import static " + BigDecimalTest.class.getCanonicalName() + ".intToString;\n" +
+                        "rule \"Rule 1a\"\n" +
+                        "    when\n" +
+                        "        BDFact( intToString(value2 - 1) == \"2\" )\n" +
+                        "    then\n" +
+                        "end";
+
+        KieSession ksession = getKieSession(str);
+
+        BDFact bdFact = new BDFact();
+        bdFact.setValue2(new BigDecimal("3"));
+
+        ksession.insert(bdFact);
+
+        assertThat(ksession.fireAllRules()).isEqualTo(1);
+    }
+
+    @Test
+    public void bigDecimalCoercionInNestedMethodArgument_shouldNotFailToBuild() {
+        // KIE-748
+        String str =
+                "package org.drools.modelcompiler.bigdecimals\n" +
+                     "import " + BDFact.class.getCanonicalName() + ";\n" +
+                     "import static " + BigDecimalTest.class.getCanonicalName() + ".intToString;\n" +
+                     "rule \"Rule 1a\"\n" +
+                     "    when\n" +
+                     "        BDFact( intToString(value1 * (value2 - 1)) == \"20\" )\n" +
+                     "    then\n" +
+                     "end";
+
+        KieSession ksession = getKieSession(str);
+
+        BDFact bdFact = new BDFact();
+        bdFact.setValue1(new BigDecimal("10"));
+        bdFact.setValue2(new BigDecimal("3"));
+
+        ksession.insert(bdFact);
+
+        assertThat(ksession.fireAllRules()).isEqualTo(1);
+    }
+
+    public static String intToString(int value) {
+        return Integer.toString(value);
+    }
 }
